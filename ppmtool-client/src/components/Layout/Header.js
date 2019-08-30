@@ -9,13 +9,13 @@ class Header extends Component {
             Personal Project Management Tool
           </a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
-            <span class="navbar-toggler-icon" />
+            <span className="navbar-toggler-icon" />
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <a class="nav-link" href="/dashboard">
+                <a className="nav-link" href="/dashboard">
                   Dashboard
                 </a>
               </li>
