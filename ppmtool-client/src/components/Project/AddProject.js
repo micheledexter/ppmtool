@@ -53,34 +53,46 @@ class AddProject extends Component {
                   <div className="form-group">
                     <input 
                       type="text" 
-                      className="form-control form-control-lg" 
+                      className={`form-control form-control-lg ${errors.projectName ? "is-invalid" : ""}`}
                       placeholder="Project Name" 
                       name="projectName"
                       value={this.state.projectName}
                       onChange={this.onChange}
                     />
-                    <p>{errors.projectName}</p>
+                    {errors.projectName && (
+                      <div className="invalid-feedback">
+                        {errors.projectName}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <input 
                       type="text" 
-                      className="form-control form-control-lg" 
+                      className={`form-control form-control-lg ${errors.projectIdentifier ? "is-invalid" : ""}`}
                       placeholder="Unique Project ID" 
                       name="projectIdentifier"
                       value={this.state.projectIdentifier}
                       onChange={this.onChange}
                     />
-                    <p>{errors.projectIdentifier}</p>
+                    {errors.projectIdentifier && (
+                      <div className="invalid-feedback">
+                        {errors.projectIdentifier}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <textarea 
-                      className="form-control form-control-lg" 
+                      className={`form-control form-control-lg ${errors.description ? "is-invalid" : ""}`}
                       placeholder="Project Description"
                       name="description" 
                       value={this.state.description}
                       onChange={this.onChange}
                     />
-                    <p>{errors.description}</p>
+                    {errors.description && (
+                      <div className="invalid-feedback">
+                        {errors.description}
+                      </div>
+                    )}
                   </div>
                   <h6>Start Date</h6>
                   <div className="form-group">
