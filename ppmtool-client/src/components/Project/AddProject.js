@@ -11,7 +11,15 @@ class AddProject extends Component {
       projectIdentifier: "",
       description: "",
       start_date: "",
-      end_date: ""
+      end_date: "",
+      errors: {}
+    }
+  }
+
+  // lifecycle hooks
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   }
 
@@ -21,11 +29,18 @@ class AddProject extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const newProject = {...this.state};
+    const newProject = {
+      projectName: this.state.projectName,
+      projectIdentifier: this.state.projectIdentifier,
+      description: this.state.description,
+      start_date: this.state.start_date,
+      end_date: this.state.end_date
+    };
     this.props.createProject(newProject, this.props.history);
   }
 
   render() {
+    const {errors} = this.state;
     return(
       <div>
         <div className="project">
@@ -38,31 +53,46 @@ class AddProject extends Component {
                   <div className="form-group">
                     <input 
                       type="text" 
-                      className="form-control form-control-lg" 
+                      className={`form-control form-control-lg ${errors.projectName ? "is-invalid" : ""}`}
                       placeholder="Project Name" 
                       name="projectName"
                       value={this.state.projectName}
                       onChange={this.onChange}
                     />
+                    {errors.projectName && (
+                      <div className="invalid-feedback">
+                        {errors.projectName}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <input 
                       type="text" 
-                      className="form-control form-control-lg" 
+                      className={`form-control form-control-lg ${errors.projectIdentifier ? "is-invalid" : ""}`}
                       placeholder="Unique Project ID" 
                       name="projectIdentifier"
                       value={this.state.projectIdentifier}
                       onChange={this.onChange}
                     />
+                    {errors.projectIdentifier && (
+                      <div className="invalid-feedback">
+                        {errors.projectIdentifier}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <textarea 
-                      className="form-control form-control-lg" 
+                      className={`form-control form-control-lg ${errors.description ? "is-invalid" : ""}`}
                       placeholder="Project Description"
                       name="description" 
                       value={this.state.description}
                       onChange={this.onChange}
                     />
+                    {errors.description && (
+                      <div className="invalid-feedback">
+                        {errors.description}
+                      </div>
+                    )}
                   </div>
                   <h6>Start Date</h6>
                   <div className="form-group">
@@ -100,7 +130,12 @@ class AddProject extends Component {
 }
 
 AddProject.propTypes = {
-  createProject: PropTypes.func.isRequired
+  createProject: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
-export default connect(null, {createProject})(AddProject);
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, {createProject})(AddProject);
