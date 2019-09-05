@@ -63,3 +63,7 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+.delete {
+  cursor: pointer
+}
