@@ -8,4 +8,5 @@ import com.duliko.ppmtool.domain.Backlog;
 @Repository
 public interface BacklogRepository extends JpaRepository<Backlog, Long> {
 
+	Backlog findByProjectIdentifier(String identifier);
 }
