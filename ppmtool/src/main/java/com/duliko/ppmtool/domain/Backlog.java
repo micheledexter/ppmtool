@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Backlog {
 
@@ -21,6 +23,7 @@ public class Backlog {
 	// OneToOne with project
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id", nullable = false)
+	@JsonIgnore
 	private Project project;
 	
 	// OneToMany with projectTasks
