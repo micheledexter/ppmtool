@@ -2,11 +2,14 @@ package com.duliko.ppmtool.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
@@ -46,6 +49,9 @@ public class Project {
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date updated_At;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+	private Backlog backlog;
+	
 	@PrePersist
 	protected void onCreate() {
 		this.created_At = new Date();
@@ -65,7 +71,7 @@ public class Project {
 	public Project(Long id, @NotBlank(message = "Project name is required") String projectName,
 			@NotBlank(message = "Project Identifier is required") @Size(min = 4, max = 5, message = "Please use 4 to 5 characters") String projectIdentifier,
 			@NotBlank(message = "Project description is required") String description, Date start_date, Date end_date,
-			Date created_At, Date updated_At) {
+			Date created_At, Date updated_At, Backlog backlog) {
 		super();
 		this.id = id;
 		this.projectName = projectName;
@@ -75,6 +81,7 @@ public class Project {
 		this.end_date = end_date;
 		this.created_At = created_At;
 		this.updated_At = updated_At;
+		this.backlog = backlog;
 	}
 
 	public Long getId() {
@@ -141,17 +148,26 @@ public class Project {
 		this.updated_At = updated_At;
 	}
 
+	public Backlog getBacklog() {
+		return backlog;
+	}
+
+	public void setBacklog(Backlog backlog) {
+		this.backlog = backlog;
+	}
+
 	@Override
 	public String toString() {
 		return "Project [id=" + id + ", projectName=" + projectName + ", projectIdentifier=" + projectIdentifier
 				+ ", description=" + description + ", start_date=" + start_date + ", end_date=" + end_date
-				+ ", created_At=" + created_At + ", updated_At=" + updated_At + "]";
+				+ ", created_At=" + created_At + ", updated_At=" + updated_At + ", backlog=" + backlog + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((backlog == null) ? 0 : backlog.hashCode());
 		result = prime * result + ((created_At == null) ? 0 : created_At.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((end_date == null) ? 0 : end_date.hashCode());
@@ -172,6 +188,11 @@ public class Project {
 		if (getClass() != obj.getClass())
 			return false;
 		Project other = (Project) obj;
+		if (backlog == null) {
+			if (other.backlog != null)
+				return false;
+		} else if (!backlog.equals(other.backlog))
+			return false;
 		if (created_At == null) {
 			if (other.created_At != null)
 				return false;
